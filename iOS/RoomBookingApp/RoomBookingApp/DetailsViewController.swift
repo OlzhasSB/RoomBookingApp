@@ -19,6 +19,34 @@ class DetailsViewController: UIViewController {
         
         configureTableView()
         makeConstraints()
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(handleAdd))
+    }
+    
+    @objc func handleAdd() {
+    
+        let vc = UIViewController()
+        vc.preferredContentSize = CGSize(width: 250,height: 200)
+        let pickerView = UIPickerView(frame: CGRect(x: 0, y: 0, width: 250, height: 150))
+        pickerView.delegate = self
+        pickerView.dataSource = self
+        vc.view.addSubview(pickerView)
+        
+
+        
+
+        let alert = UIAlertController(title: "Make a reservation", message: "", preferredStyle: .alert)
+        alert.setValue(vc, forKey: "contentViewController")
+        alert.addTextField { (textField: UITextField) in
+            textField.placeholder = "Enter duration"
+        }
+        alert.addAction(UIAlertAction(title: "Done", style: .default, handler: { [self] (action: UIAlertAction) in
+//            guard let title = alert.textFields?.first else { return }
+//            guard let subtitle = alert.textFields?[1] else { return }
+            
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        self.present(alert, animated: true, completion: nil)
+
     }
     
     func configureTableView() {
@@ -39,6 +67,14 @@ class DetailsViewController: UIViewController {
 
 extension DetailsViewController: UITableViewDelegate, UITableViewDataSource {
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        1
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        "These time slots are occupied:"
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         arr.count
     }
@@ -49,6 +85,18 @@ extension DetailsViewController: UITableViewDelegate, UITableViewDataSource {
         cell.textLabel?.textAlignment = .center
         cell.selectionStyle = .none
         return cell
+    }
+    
+}
+
+extension DetailsViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        3
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        3
     }
     
 }

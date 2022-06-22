@@ -11,7 +11,13 @@ class RoomsViewController: UIViewController {
 
     let roomsTableView = UITableView()
     
-    let arr: [UIColor] = [.systemGreen, .systemBlue]
+//    private var networkManager = NetworkManager.shared
+    
+    let headers = ["Lection halls", "Conference halls", "Game rooms"]
+    let colors: [[UIColor]] = [[.systemGreen, .systemBlue], [.systemPurple], [.systemGray]]
+    
+//    var genres
+//    var sectionMovies:  = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,12 +45,12 @@ class RoomsViewController: UIViewController {
 extension RoomsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        arr.count
+        colors[section].count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "roomCell") as! RoomCell
-        cell.backgroundColor = arr[indexPath.row]
+        cell.backgroundColor = colors[indexPath.section][indexPath.row]
         cell.selectionStyle = .none
         return cell
     }
@@ -55,4 +61,34 @@ extension RoomsViewController: UITableViewDelegate, UITableViewDataSource {
         navigationController?.pushViewController(detailsVC, animated: true)
     }
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        headers.count
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        headers[section]
+    }
+    
 }
+
+//extension RoomsViewController {
+//    
+//    private func loadGenres() {
+//        networkManager.loadGenres { [weak self] genres in
+//            guard let self = self else { return }
+//            self.genres = genres
+//        }
+//    }
+//    
+//    private func loadMovies() {
+//        networkManager.loadTodayMovies { [weak self] movies in
+//            self?.sectionMovies.append(movies)
+//        }
+//        networkManager.loadSoonMovies { [weak self] movies in
+//            self?.sectionMovies.append(movies)
+//        }
+//        networkManager.loadTrendingMovies { [weak self] movies in
+//            self?.sectionMovies.append(movies)
+//        }
+//    }
+//}
