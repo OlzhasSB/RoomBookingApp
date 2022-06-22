@@ -36,8 +36,22 @@ class InfoViewController: UIViewController {
     
     @objc func handleSwipes(_ gestureRecognizer : UISwipeGestureRecognizer) {
 //        if gestureRecognizer.state == .ended {
-//            imageView.image = UIImage(named: "female.png")
+////            imageView.image = UIImage(named: "female.png")
+//            print(pageControl.currentPage)
+//            
+//            
+//            switch pageControl.currentPage {
+//            case 0:
+//                imageView.image = UIImage(named: "male.png")
+//            case 1:
+//                imageView.image = UIImage(named: "female.png")
+//            case 2:
+//                imageView.image = UIImage(named: "male.png")
+//            default:
+//                return
+//            }
 //        }
+
     }
     
     func makeConstraints() {
@@ -48,7 +62,7 @@ class InfoViewController: UIViewController {
         imageView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
         imageView.heightAnchor.constraint(equalToConstant: 400).isActive = true
         imageView.isUserInteractionEnabled = true
-        imageView.image = UIImage(named: "male.png")
+//        imageView.image = UIImage(named: "male.png")
         
         view.addSubview(pageControl)
         pageControl.translatesAutoresizingMaskIntoConstraints = false
