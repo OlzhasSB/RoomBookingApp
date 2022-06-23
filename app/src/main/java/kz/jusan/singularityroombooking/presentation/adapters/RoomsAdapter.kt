@@ -17,7 +17,7 @@ class RoomsAdapter : RecyclerView.Adapter<RoomsAdapter.RoomViewHolder>() {
 
     private val diffCallback = object : DiffUtil.ItemCallback<Room>() {
         override fun areItemsTheSame(oldItem: Room, newItem: Room): Boolean {
-            return oldItem.roomName == newItem.roomName
+            return oldItem.displayName == newItem.displayName
         }
 
         override fun areContentsTheSame(oldItem: Room, newItem: Room): Boolean {
@@ -45,7 +45,7 @@ class RoomsAdapter : RecyclerView.Adapter<RoomsAdapter.RoomViewHolder>() {
         val room = rooms[position]
         holder.itemView.apply {
             findViewById<ImageView>(R.id.ivRoomPhoto).setImageResource(room.photo)
-            findViewById<TextView>(R.id.tvRoomName).text = room.roomName
+            findViewById<TextView>(R.id.tvRoomName).text = room.displayName
 
             setOnClickListener {
                 onRoomClickListener?.let { click ->

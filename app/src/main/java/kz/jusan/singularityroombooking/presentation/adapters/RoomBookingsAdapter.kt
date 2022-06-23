@@ -3,31 +3,35 @@ package kz.jusan.singularityroombooking.presentation.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import kz.jusan.singularityroombooking.R
-import kz.jusan.singularityroombooking.domain.entities.Room
+import kz.jusan.singularityroombooking.domain.entities.RoomBooking
+import java.time.LocalDateTime
+import java.time.OffsetDateTime
+import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeFormatterBuilder
+import java.util.*
 
 class RoomBookingsAdapter : RecyclerView.Adapter<RoomBookingsAdapter.RoomBookingsViewHolder>() {
 
     inner class RoomBookingsViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
 
-    private val diffCallback = object : DiffUtil.ItemCallback<Room>() {
-        override fun areItemsTheSame(oldItem: Room, newItem: Room): Boolean {
-            return oldItem.roomName == newItem.roomName
+    private val diffCallback = object : DiffUtil.ItemCallback<RoomBooking>() {
+        override fun areItemsTheSame(oldItem: RoomBooking, newItem: RoomBooking): Boolean {
+            return oldItem.personName == newItem.personName
         }
 
-        override fun areContentsTheSame(oldItem: Room, newItem: Room): Boolean {
+        override fun areContentsTheSame(oldItem: RoomBooking, newItem: RoomBooking): Boolean {
             return oldItem.hashCode() == newItem.hashCode()
         }
     }
 
     val differ = AsyncListDiffer(this, diffCallback)
 
-    var roomBookings: List<Room>
+    var roomBookings: List<RoomBooking>
         get() = differ.currentList
         set(value) = differ.submitList(value)
 
@@ -42,23 +46,31 @@ class RoomBookingsAdapter : RecyclerView.Adapter<RoomBookingsAdapter.RoomBooking
     }
 
     override fun onBindViewHolder(holder: RoomBookingsViewHolder, position: Int) {
-        val room = roomBookings[position]
+        val roomBooking = roomBookings[position]
         holder.itemView.apply {
-            findViewById<ImageView>(R.id.ivRoomPhoto).setImageResource(room.photo)
-            findViewById<TextView>(R.id.tvRoomName).text = room.roomName
+            val pattern = "HH:mm, dd-MMM-uuuu"
+            val fromDate = OffsetDateTime.parse(roomBooking.fromDate)
+            val fromDateFormatted = DateTimeFormatter.ofPattern(pattern, Locale.ENGLISH)
+            val toDate = OffsetDateTime.parse(roomBooking.fromDate);
+            val toDateFormatted = DateTimeFormatter.ofPattern(pattern, Locale.ENGLISH);
+
+            findViewById<TextView>(R.id.tvFromContent).text = fromDateFormatted.format(fromDate)
+            findViewById<TextView>(R.id.tvToContent).text = toDateFormatted.format(toDate)
+            findViewById<TextView>(R.id.tvWhoContent).text = roomBooking.personName
+            findViewById<TextView>(R.id.tvContactContent).text = roomBooking.contactInfo
 
             setOnClickListener {
-                onRoomClickListener?.let { click ->
-                    click(room)
+                onRoomBookingClickListener?.let { click ->
+                    click(roomBooking)
                 }
             }
         }
     }
 
-    private var onRoomClickListener: ((Room) -> Unit)? = null
+    private var onRoomBookingClickListener: ((RoomBooking) -> Unit)? = null
 
-    fun setRoomClickListener(listener: (Room) -> Unit) {
-        onRoomClickListener = listener
+    fun setRoomBookingClickListener(listener: (RoomBooking) -> Unit) {
+        onRoomBookingClickListener = listener
     }
 
     override fun getItemCount(): Int {

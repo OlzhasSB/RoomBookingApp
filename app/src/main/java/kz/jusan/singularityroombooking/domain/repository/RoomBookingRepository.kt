@@ -5,6 +5,6 @@ import retrofit2.Response
 
 interface RoomBookingRepository {
 
-    suspend fun getRoomBookings() : Response<RoomBookingDto>
+    suspend fun getRoomBookings(name: String) : Response<List<RoomBookingDto>>
 
 }

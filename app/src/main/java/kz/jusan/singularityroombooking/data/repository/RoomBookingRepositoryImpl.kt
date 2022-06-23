@@ -10,7 +10,7 @@ class RoomBookingRepositoryImpl @Inject constructor(
     private val api: RoomBookingApi
 ) : RoomBookingRepository {
 
-    override suspend fun getRoomBookings(): Response<RoomBookingDto> {
-        return api.getRoomBookings()
+    override suspend fun getRoomBookings(name: String): Response<List<RoomBookingDto>> {
+        return api.getRoomBookings(name)
     }
 }

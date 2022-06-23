@@ -3,11 +3,14 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable/ic_add_.xml" value="0.5165" />
         <entry key="app/src/main/res/font/roboto_bold.xml" value="0.6260416666666667" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.519927536231884" />
+        <entry key="app/src/main/res/layout/activity_room_booking.xml" value="0.5054347826086957" />
+        <entry key="app/src/main/res/layout/content_scrolling.xml" value="0.5054347826086957" />
         <entry key="app/src/main/res/layout/rv_item_room.xml" value="0.5054347826086957" />
         <entry key="app/src/main/res/layout/rv_room.xml" value="0.43976449275362317" />
-        <entry key="app/src/main/res/layout/rv_room_booking.xml" value="0.5054347826086957" />
+        <entry key="app/src/main/res/layout/rv_room_booking.xml" value="0.5" />
       </map>
     </option>
   </component>

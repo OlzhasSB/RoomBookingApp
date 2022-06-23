@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="kz.jusan.singularityroombooking">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".SingularityRoomBookingApplication"
         android:allowBackup="true"
@@ -13,7 +15,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SingularityRoomBooking"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".presentation.RoomBookingActivity"
+            android:exported="false" />
         <activity
             android:name=".presentation.MainActivity"
             android:exported="true">
@@ -23,6 +29,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

@@ -1,16 +1,27 @@
 package kz.jusan.singularityroombooking.data.remote
 
 import com.google.gson.annotations.SerializedName
+import kz.jusan.singularityroombooking.domain.entities.RoomBooking
 
 data class RoomBookingDto(
-    @SerializedName("from_date")
+    @SerializedName("room_ID")
+    val roomId: String,
+    @SerializedName("timefrom")
     val fromDate: String,
-    @SerializedName("to_date")
+    @SerializedName("timeto")
     val toDate: String,
-    @SerializedName("person_name")
+    @SerializedName("person")
     val personName: String,
-    @SerializedName("purpose")
-    val purpose: String,
-    @SerializedName("contact_info")
+    @SerializedName("contact")
     val contactInfo: String
 )
+
+fun RoomBookingDto.toRoomBooking(): RoomBooking {
+    return RoomBooking(
+        fromDate = fromDate,
+        toDate = toDate,
+        personName = personName,
+        purpose = "purpose",
+        contactInfo = contactInfo
+    )
+}
