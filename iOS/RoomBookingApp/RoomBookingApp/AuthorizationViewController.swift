@@ -8,6 +8,8 @@
 import UIKit
 
 class AuthorizationViewController: UIViewController {
+    
+    private var networkManager = NetworkManager.shared
 
     let nameTextField = UITextField()
     let passwordTextField = UITextField()
@@ -21,6 +23,9 @@ class AuthorizationViewController: UIViewController {
     }
     
     @objc func loginButtonPressed() {
+        
+//        networkManager.auth()
+        
         let roomsVC = RoomsViewController()
         navigationController?.pushViewController(roomsVC, animated: true)
     }

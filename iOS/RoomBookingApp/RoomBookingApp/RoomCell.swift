@@ -25,7 +25,7 @@ class RoomCell: UITableViewCell {
     }
     
     func assignParameters(number: Int) {
-        descriptionLabel.text = "\(number)"
+        descriptionLabel.text = "Кабинет: \(number)"
     }
     
     func configureImageView() {
