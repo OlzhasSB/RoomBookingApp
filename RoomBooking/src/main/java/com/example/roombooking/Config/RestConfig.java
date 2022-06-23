@@ -11,6 +11,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class RestConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(16);
+        return new BCryptPasswordEncoder(6);
     }
 }
