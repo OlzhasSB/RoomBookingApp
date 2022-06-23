@@ -8,9 +8,6 @@
 import Foundation
 
 class NetworkManager {
-//    private let API_KEY = "e516e695b99f3043f08979ed2241b3db"
-    
-//http://164.92.196.125:8080/rooms/304
 
     static var shared = NetworkManager()
 //    private lazy var urlComponents: URLComponents = {
@@ -40,9 +37,9 @@ class NetworkManager {
 //        guard let requestUrl = components.url else {
 //            return
 //        }
-        let url = URL(string: "\(link)/\(path)")
+        guard let url = URL(string: "\(link)/\(path)") else { return }
         
-        let task = session.dataTask(with: url!) { data, response, error in
+        let task = session.dataTask(with: url) { data, response, error in
             guard error == nil else {
                 print("Error: error calling GET")
                 return
@@ -68,56 +65,34 @@ class NetworkManager {
         }
         task.resume()
     }
-//
-//    func loadTodayMovies(completion: @escaping ([Movie]) -> Void) {
-//        loadMovies(path: "/3/movie/now_playing") { movies in
-//            completion(movies)
-//        }
-//    }
-//    func loadSoonMovies(completion: @escaping ([Movie]) -> Void) {
-//        loadMovies(path: "/3/movie/upcoming") { movies in
-//            completion(movies)
-//        }
-//    }
-//    func loadTrendingMovies(completion: @escaping ([Movie]) -> Void) {
-//        loadMovies(path: "/3/trending/movie/week") { movies in
-//            completion(movies)
-//        }
-//    }
-//
-//    private func loadMovies(path: String, completion: @escaping ([Movie]) -> Void) {
-//        var components = urlComponents
-//        components.path = path
-//
-//        guard let requestUrl = components.url else {
-//            return
-//        }
-//
-//        let task = session.dataTask(with: requestUrl) { data, response, error in
-//            guard error == nil else {
-//                print("Error: error calling GET")
-//                return
-//            }
-//            guard let data = data else {
-//                print("Error: Did not receive data")
-//                return
-//            }
-//            guard let response = response as? HTTPURLResponse, (200..<300) ~= response.statusCode else {
-//                print("Error: HTTP request failed")
-//                return
-//            }
-//
-//            do {
-//                let moviesEntity = try JSONDecoder().decode(MoviesEntity.self, from: data)
-//                DispatchQueue.main.async {
-//                    completion(moviesEntity.results)
-//                }
-//            } catch {
-//                DispatchQueue.main.async {
-//                    completion([])
-//                }
-//            }
-//        }
-//        task.resume()
-//    }
+    
+    func makePOSTRequest(path: Int, timefrom: String, timeto: String) {
+        guard let url = URL(string: "\(link)/\(path)") else { return }
+        
+        var request = URLRequest(url: url)
+        
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        let body: [String: AnyHashable] = [
+            "person": "SSSSSSS",
+            "timefrom": timefrom,
+            "timeto": timeto,
+            "contact": "XXX"
+        ]
+        
+        request.httpBody = try? JSONSerialization.data(withJSONObject: body, options: .fragmentsAllowed)
+        
+        let task = URLSession.shared.dataTask(with: request) { data, _, error in
+            guard let data = data, error == nil else { return }
+            
+            do {
+                let response = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
+                print(response)
+            } catch {
+                print(error)
+            }
+        }
+        task.resume()
+    }
+    
 }

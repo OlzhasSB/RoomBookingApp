@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3102BFD22864874B00D6A282 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3102BFD12864874B00D6A282 /* SignUpViewController.swift */; };
 		31168A9A2862F09400EA1F03 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31168A992862F09400EA1F03 /* AppDelegate.swift */; };
 		31168A9C2862F09400EA1F03 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31168A9B2862F09400EA1F03 /* SceneDelegate.swift */; };
 		31168A9E2862F09400EA1F03 /* RoomsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31168A9D2862F09400EA1F03 /* RoomsViewController.swift */; };
@@ -23,6 +24,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3102BFD12864874B00D6A282 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		31168A962862F09400EA1F03 /* RoomBookingApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RoomBookingApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		31168A992862F09400EA1F03 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		31168A9B2862F09400EA1F03 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -73,6 +75,7 @@
 				31168AA72862F09400EA1F03 /* Info.plist */,
 				31168AB32862FD1900EA1F03 /* Supporting Files */,
 				311FD13E2863029600A68129 /* AuthorizationViewController.swift */,
+				3102BFD12864874B00D6A282 /* SignUpViewController.swift */,
 				311FD14028630B7500A68129 /* InfoViewController.swift */,
 				31168A9D2862F09400EA1F03 /* RoomsViewController.swift */,
 				31168AAF2862F91A00EA1F03 /* DetailsViewController.swift */,
@@ -167,6 +170,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3102BFD22864874B00D6A282 /* SignUpViewController.swift in Sources */,
 				313641E428631CC500230AC9 /* NetworkManager.swift in Sources */,
 				311FD13F2863029600A68129 /* AuthorizationViewController.swift in Sources */,
 				3174A25D28643EEA003EB197 /* RequestsEntity.swift in Sources */,

@@ -21,51 +21,56 @@ class DetailsViewController: UIViewController {
     let requestButton = UIButton()
     
     var roomNumber: Int?
-    
-    let arr: [String] = ["10:00 - 11:30", "13:00 - 14:00"]
-    
     private var networkManager = NetworkManager.shared
-    var requests: [Request] = []
+    
+    var requests: [Request] = [] {
+        didSet {
+            timeSlotsTableView.reloadData()
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(handleAdd))
+        loadRequests()
         
         configureTableView()
         configureDatePicker()
         configureStackViews()
         makeConstraints()
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(handleAdd))
-        loadRequests()
     }
     
     @objc func handleAdd() {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(handleClose))
-        timeSlotsTableView.isHidden.toggle()
-        fromStackView.isHidden.toggle()
-        durationStackView.isHidden.toggle()
-        requestButton.isHidden.toggle()
-        occupiedLabel.isHidden.toggle()
+        toggleViews()
     }
     
     @objc func handleClose() {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(handleAdd))
-        timeSlotsTableView.isHidden.toggle()
-        fromStackView.isHidden.toggle()
-        durationStackView.isHidden.toggle()
-        requestButton.isHidden.toggle()
-        occupiedLabel.isHidden.toggle()
-    }
-    
-    @objc func datePickerValueChanged(_ sender: UIDatePicker){
-        let dateFormatter: DateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MM/dd/yyyy hh:mm a"
-        let selectedDate: String = dateFormatter.string(from: sender.date)
-        print("Selected value \(selectedDate)")
+        toggleViews()
     }
     
     @objc func requestButtonPressed() {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(handleAdd))
+        toggleViews()
+        
+        guard let roomNumber = roomNumber else { return }
+        guard let duration = durationTextField.text, durationTextField.hasText else { return }
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        
+        let timefrom = dateFormatter.string(from: datePicker.date)
+        let withInterval = datePicker.date.addingTimeInterval(Double(duration)!*60)
+        let timeto = dateFormatter.string(from: withInterval)
+
+        networkManager.makePOSTRequest(path: roomNumber, timefrom: timefrom, timeto: timeto)
+        
+        loadRequests()
+    }
+    
+    func toggleViews() {
         timeSlotsTableView.isHidden.toggle()
         fromStackView.isHidden.toggle()
         durationStackView.isHidden.toggle()
@@ -73,10 +78,17 @@ class DetailsViewController: UIViewController {
         occupiedLabel.isHidden.toggle()
     }
     
+    func convertToDate(stringDate: String) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        guard let date = dateFormatter.date(from: stringDate) else { return ""}
+        return date.formatted(date: .numeric, time: .shortened)
+    }
+    
     func configureDatePicker() {
-        datePicker.timeZone = NSTimeZone.local
-        datePicker.backgroundColor = UIColor.white
-        datePicker.addTarget(self, action: #selector(datePickerValueChanged(_:)), for: .valueChanged)
+//        datePicker.timeZone = NSTimeZone.local
+//        datePicker.backgroundColor = UIColor.white
+//        datePicker.addTarget(self, action: #selector(datePickerValueChanged(_:)), for: .valueChanged)
     }
     
     func configureStackViews() {
@@ -168,22 +180,25 @@ class DetailsViewController: UIViewController {
 extension DetailsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        arr.count
+        requests.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "timeCell") as! TimeCell
         if requests.count > 0 {
-            cell.textLabel?.text = "\(requests[indexPath.row].timefrom) - \(requests[indexPath.row].timeto)"
+            let from = requests[indexPath.row].timefrom
+            let to = requests[indexPath.row].timeto
+            cell.textLabel?.text = "\(convertToDate(stringDate: from)) - \(convertToDate(stringDate: to))"
         }
-
-//        arr[indexPath.row]
         cell.textLabel?.textAlignment = .center
+        cell.textLabel?.numberOfLines = 0
         cell.selectionStyle = .none
         return cell
     }
     
 }
+
+// MARK: - Network Request
 
 extension DetailsViewController {
     
@@ -192,7 +207,6 @@ extension DetailsViewController {
         networkManager.loadRequests(path: "\(roomNumber)") { [weak self] requests in
             guard let self = self else { return }
             self.requests = requests
-            print(requests)
         }
     }
 
