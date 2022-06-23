@@ -11,7 +11,7 @@ class RoomsViewController: UIViewController {
 
     let roomsTableView = UITableView()
     let headers = ["Lection halls", "Conference halls", "Game rooms"]
-    let rooms: [[Int]] = [[304, 302], [404], [303]]
+    let rooms: [[Int]] = [[302, 304, 404], [303], [206]]
     
     override func viewDidLoad() {
         super.viewDidLoad()

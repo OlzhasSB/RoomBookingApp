@@ -67,7 +67,7 @@ class DetailsViewController: UIViewController {
 
         networkManager.makePOSTRequest(path: roomNumber, timefrom: timefrom, timeto: timeto)
         
-        loadRequests()
+//        loadRequests()
     }
     
     func toggleViews() {
