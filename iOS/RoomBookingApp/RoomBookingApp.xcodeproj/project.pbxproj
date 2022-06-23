@@ -21,6 +21,7 @@
 		311FD14128630B7500A68129 /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 311FD14028630B7500A68129 /* InfoViewController.swift */; };
 		313641E428631CC500230AC9 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 313641E328631CC500230AC9 /* NetworkManager.swift */; };
 		3174A25D28643EEA003EB197 /* RequestsEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3174A25C28643EEA003EB197 /* RequestsEntity.swift */; };
+		AC68C71E2864FB5000217539 /* Room.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC68C71D2864FB5000217539 /* Room.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +41,7 @@
 		311FD14028630B7500A68129 /* InfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViewController.swift; sourceTree = "<group>"; };
 		313641E328631CC500230AC9 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		3174A25C28643EEA003EB197 /* RequestsEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestsEntity.swift; sourceTree = "<group>"; };
+		AC68C71D2864FB5000217539 /* Room.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Room.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +83,7 @@
 				31168AAF2862F91A00EA1F03 /* DetailsViewController.swift */,
 				31168AAD2862F2CC00EA1F03 /* RoomCell.swift */,
 				31168AB12862FB6F00EA1F03 /* TimeCell.swift */,
+				AC68C71D2864FB5000217539 /* Room.swift */,
 				313641E328631CC500230AC9 /* NetworkManager.swift */,
 				3174A25C28643EEA003EB197 /* RequestsEntity.swift */,
 				31168AA22862F09400EA1F03 /* Assets.xcassets */,
@@ -172,6 +175,7 @@
 			files = (
 				3102BFD22864874B00D6A282 /* SignUpViewController.swift in Sources */,
 				313641E428631CC500230AC9 /* NetworkManager.swift in Sources */,
+				AC68C71E2864FB5000217539 /* Room.swift in Sources */,
 				311FD13F2863029600A68129 /* AuthorizationViewController.swift in Sources */,
 				3174A25D28643EEA003EB197 /* RequestsEntity.swift in Sources */,
 				31168AB22862FB6F00EA1F03 /* TimeCell.swift in Sources */,
@@ -335,6 +339,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -363,6 +368,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

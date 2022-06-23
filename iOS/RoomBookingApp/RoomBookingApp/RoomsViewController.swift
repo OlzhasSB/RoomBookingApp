@@ -10,8 +10,9 @@ import UIKit
 class RoomsViewController: UIViewController {
 
     let roomsTableView = UITableView()
-    let headers = ["Lection halls", "Conference halls", "Game rooms"]
-    let rooms: [[Int]] = [[302, 304, 404], [303], [206]]
+    let headers = ["Лекционные залы", "Конференц-залы", "Игровой зал"]
+    
+    let rooms: [[Room]] = [[Room(image: UIImage(named: "lection.jpeg")!, number: 302), Room(image: UIImage(named: "lection.jpeg")!, number: 304), Room(image: UIImage(named: "lection.jpeg")!, number: 404)], [Room(image: UIImage(named: "conference.jpeg")!, number: 303)], [Room(image: UIImage(named: "gaming.jpeg")!, number: 206)]]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,13 +46,13 @@ extension RoomsViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "roomCell") as! RoomCell
         cell.selectionStyle = .none
-        cell.assignParameters(number: rooms[indexPath.section][indexPath.row])
+        cell.assignParameters(number: rooms[indexPath.section][indexPath.row].number, image: rooms[indexPath.section][indexPath.row].image)
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let detailsVC = DetailsViewController()
-        detailsVC.roomNumber = rooms[indexPath.section][indexPath.row]
+        detailsVC.roomNumber = rooms[indexPath.section][indexPath.row].number
         navigationController?.pushViewController(detailsVC, animated: true)
     }
     
