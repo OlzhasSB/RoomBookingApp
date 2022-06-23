@@ -12,6 +12,7 @@ class AuthorizationViewController: UIViewController {
     let nameTextField = UITextField()
     let passwordTextField = UITextField()
     let loginButton = UIButton()
+    let signUpButton = UIButton()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,6 +23,11 @@ class AuthorizationViewController: UIViewController {
     @objc func loginButtonPressed() {
         let roomsVC = RoomsViewController()
         navigationController?.pushViewController(roomsVC, animated: true)
+    }
+    
+    @objc func signUpButtonPressed() {
+        let signUpVC = SignUpViewController()
+        navigationController?.pushViewController(signUpVC, animated: true)
     }
     
     func makeConstraints() {
@@ -58,13 +64,24 @@ class AuthorizationViewController: UIViewController {
         view.addSubview(loginButton)
         loginButton.translatesAutoresizingMaskIntoConstraints = false
         loginButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        loginButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50).isActive = true
+        loginButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -110).isActive = true
         loginButton.widthAnchor.constraint(equalToConstant: 300).isActive = true
-        loginButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        loginButton.heightAnchor.constraint(equalToConstant: 45).isActive = true
         loginButton.layer.cornerRadius = 5
-        loginButton.setTitle("Login", for: .normal)
+        loginButton.setTitle("Войти", for: .normal)
         loginButton.backgroundColor = .systemGreen
         loginButton.addTarget(self, action: #selector(loginButtonPressed), for: .touchUpInside)
+        
+        view.addSubview(signUpButton)
+        signUpButton.translatesAutoresizingMaskIntoConstraints = false
+        signUpButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        signUpButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50).isActive = true
+        signUpButton.widthAnchor.constraint(equalToConstant: 300).isActive = true
+        signUpButton.heightAnchor.constraint(equalToConstant: 45).isActive = true
+        signUpButton.layer.cornerRadius = 5
+        signUpButton.setTitle("Регистрация", for: .normal)
+        signUpButton.backgroundColor = .systemBlue
+        signUpButton.addTarget(self, action: #selector(signUpButtonPressed), for: .touchUpInside)
     }
 }
 

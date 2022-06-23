@@ -12,6 +12,8 @@ class RoomCell: UITableViewCell {
     let roomImageView = UIImageView()
     let descriptionLabel = UILabel()
     
+    var labelText: String!
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureImageView()
@@ -20,6 +22,10 @@ class RoomCell: UITableViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func assignParameters(number: Int) {
+        descriptionLabel.text = "\(number)"
     }
     
     func configureImageView() {
@@ -37,7 +43,5 @@ class RoomCell: UITableViewCell {
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         descriptionLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
         descriptionLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
-        descriptionLabel.text = "Room 304"
     }
-    
 }

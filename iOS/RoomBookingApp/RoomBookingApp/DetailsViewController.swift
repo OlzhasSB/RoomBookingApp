@@ -20,54 +20,75 @@ class DetailsViewController: UIViewController {
     let minLabel = UILabel()
     let requestButton = UIButton()
     
-    let arr: [String] = ["10:00 - 11:30", "13:00 - 14:00"]
+    var roomNumber: Int?
+    private var networkManager = NetworkManager.shared
+    
+    var requests: [Request] = [] {
+        didSet {
+            timeSlotsTableView.reloadData()
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(handleAdd))
+        loadRequests()
         
         configureTableView()
         configureDatePicker()
         configureStackViews()
         makeConstraints()
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(handleAdd))
     }
     
     @objc func handleAdd() {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .close, target: self, action: #selector(handleClose))
-        timeSlotsTableView.isHidden.toggle()
-        fromStackView.isHidden.toggle()
-        durationStackView.isHidden.toggle()
-        requestButton.isHidden.toggle()
+        toggleViews()
     }
     
     @objc func handleClose() {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(handleAdd))
-        timeSlotsTableView.isHidden.toggle()
-        fromStackView.isHidden.toggle()
-        durationStackView.isHidden.toggle()
-        requestButton.isHidden.toggle()
-    }
-    
-    @objc func datePickerValueChanged(_ sender: UIDatePicker){
-        let dateFormatter: DateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MM/dd/yyyy hh:mm a"
-        let selectedDate: String = dateFormatter.string(from: sender.date)
-        print("Selected value \(selectedDate)")
+        toggleViews()
     }
     
     @objc func requestButtonPressed() {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(handleAdd))
+        toggleViews()
+        
+        guard let roomNumber = roomNumber else { return }
+        guard let duration = durationTextField.text, durationTextField.hasText else { return }
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        
+        let timefrom = dateFormatter.string(from: datePicker.date)
+        let withInterval = datePicker.date.addingTimeInterval(Double(duration)!*60)
+        let timeto = dateFormatter.string(from: withInterval)
+
+        networkManager.makePOSTRequest(path: roomNumber, timefrom: timefrom, timeto: timeto)
+        
+        loadRequests()
+    }
+    
+    func toggleViews() {
         timeSlotsTableView.isHidden.toggle()
         fromStackView.isHidden.toggle()
         durationStackView.isHidden.toggle()
         requestButton.isHidden.toggle()
+        occupiedLabel.isHidden.toggle()
+    }
+    
+    func convertToDate(stringDate: String) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+        guard let date = dateFormatter.date(from: stringDate) else { return ""}
+        return date.formatted(date: .numeric, time: .shortened)
     }
     
     func configureDatePicker() {
-        datePicker.timeZone = NSTimeZone.local
-        datePicker.backgroundColor = UIColor.white
-        datePicker.addTarget(self, action: #selector(datePickerValueChanged(_:)), for: .valueChanged)
+//        datePicker.timeZone = NSTimeZone.local
+//        datePicker.backgroundColor = UIColor.white
+//        datePicker.addTarget(self, action: #selector(datePickerValueChanged(_:)), for: .valueChanged)
     }
     
     func configureStackViews() {
@@ -109,18 +130,20 @@ class DetailsViewController: UIViewController {
         timeSlotsTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
         timeSlotsTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
         timeSlotsTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        timeSlotsTableView.layer.borderColor = UIColor.systemGray3.cgColor
+        timeSlotsTableView.layer.borderWidth = 0.8
         
         view.addSubview(fromStackView)
         fromStackView.translatesAutoresizingMaskIntoConstraints = false
         fromStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        fromStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -30).isActive = true
+        fromStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -50).isActive = true
         startLabel.text = "Начало:"
         fromStackView.isHidden = true
         
         view.addSubview(durationStackView)
         durationStackView.translatesAutoresizingMaskIntoConstraints = false
         durationStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        durationStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 30).isActive = true
+        durationStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 20).isActive = true
         durationStackView.isHidden = true
         
         durationTextField.translatesAutoresizingMaskIntoConstraints = false
@@ -156,26 +179,35 @@ class DetailsViewController: UIViewController {
 
 extension DetailsViewController: UITableViewDelegate, UITableViewDataSource {
     
-//    func numberOfSections(in tableView: UITableView) -> Int {
-//        1
-//    }
-//
-//    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-//        "These time slots are occupied:"
-//    }
-//
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        arr.count
+        requests.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "timeCell") as! TimeCell
-        cell.textLabel?.text = arr[indexPath.row]
+        if requests.count > 0 {
+            let from = requests[indexPath.row].timefrom
+            let to = requests[indexPath.row].timeto
+            cell.textLabel?.text = "\(convertToDate(stringDate: from)) - \(convertToDate(stringDate: to))"
+        }
         cell.textLabel?.textAlignment = .center
+        cell.textLabel?.numberOfLines = 0
         cell.selectionStyle = .none
         return cell
     }
     
 }
 
+// MARK: - Network Request
 
+extension DetailsViewController {
+    
+    private func loadRequests() {
+        guard let roomNumber = roomNumber else { return }
+        networkManager.loadRequests(path: "\(roomNumber)") { [weak self] requests in
+            guard let self = self else { return }
+            self.requests = requests
+        }
+    }
+
+}
