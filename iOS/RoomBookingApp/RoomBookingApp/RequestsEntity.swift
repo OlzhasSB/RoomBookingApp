@@ -9,11 +9,11 @@ import Foundation
 
 struct Request: Decodable {
     let id: Int
-    let contact: String
-    let room_ID: Int
     let person: String
+    let room_ID: Int
     let timefrom: String
     let timeto: String
+    let contact: String
 }
 
 //struct RequestsEntity: Decodable {

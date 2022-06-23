@@ -10,6 +10,7 @@ import UIKit
 class AuthorizationViewController: UIViewController {
     
     private var networkManager = NetworkManager.shared
+    @Published var isAuthenticated: Bool = false
 
     let nameTextField = UITextField()
     let passwordTextField = UITextField()
@@ -24,10 +25,28 @@ class AuthorizationViewController: UIViewController {
     
     @objc func loginButtonPressed() {
         
-//        networkManager.auth()
+        let defaults = UserDefaults.standard
         
-        let roomsVC = RoomsViewController()
-        navigationController?.pushViewController(roomsVC, animated: true)
+        guard let username = nameTextField.text, nameTextField.hasText else { return }
+        
+        guard let password = passwordTextField.text, passwordTextField.hasText else { return }
+        
+        networkManager.auth(username: username, password: password) { result in
+            switch result {
+            case .success(let token):
+                defaults.setValue("Bearer \(token)", forKey: "jsonwebtoken")
+                DispatchQueue.main.async {
+                    self.isAuthenticated = true
+                }
+                let roomsVC = RoomsViewController()
+                self.navigationController?.pushViewController(roomsVC, animated: true)
+            case .failure( _):
+                let dialogMessage = UIAlertController(title: "Внимание!", message: "Данный аккаунт не зарегестрирован", preferredStyle: .alert)
+                let ok = UIAlertAction(title: "Закрыть", style: .default, handler: nil)
+                dialogMessage.addAction(ok)
+                self.present(dialogMessage, animated: true, completion: nil)
+            }
+        }
     }
     
     @objc func signUpButtonPressed() {
@@ -49,7 +68,7 @@ class AuthorizationViewController: UIViewController {
         nameTextField.setLeftPaddingPoints(10)
         nameTextField.becomeFirstResponder()
         nameTextField.clearButtonMode = .whileEditing
-        nameTextField.placeholder = "Name"
+        nameTextField.placeholder = "Логин"
         
         view.addSubview(passwordTextField)
         passwordTextField.translatesAutoresizingMaskIntoConstraints = false
@@ -64,7 +83,7 @@ class AuthorizationViewController: UIViewController {
         passwordTextField.setLeftPaddingPoints(10)
         passwordTextField.becomeFirstResponder()
         passwordTextField.clearButtonMode = .whileEditing
-        passwordTextField.placeholder = "Password"
+        passwordTextField.placeholder = "Пароль"
         
         view.addSubview(loginButton)
         loginButton.translatesAutoresizingMaskIntoConstraints = false
@@ -97,3 +116,11 @@ extension UITextField {
         self.leftViewMode = .always
     }
 }
+
+//func signOut() {
+//    let defaults = UserDefaults.standard
+//    defaults.removeObject(forKey: "jsonwebtoken")
+//    DispatchQueue.main.async {
+//        self.isAuthenticated = false
+//    }
+//}

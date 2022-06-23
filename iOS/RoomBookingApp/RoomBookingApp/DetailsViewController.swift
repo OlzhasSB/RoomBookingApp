@@ -9,6 +9,7 @@ import UIKit
 
 class DetailsViewController: UIViewController {
 
+    let roomLabel = UILabel()
     let occupiedLabel = UILabel()
     let timeSlotsTableView = UITableView()
     let datePicker = UIDatePicker()
@@ -23,7 +24,7 @@ class DetailsViewController: UIViewController {
     var roomNumber: Int?
     private var networkManager = NetworkManager.shared
     
-    var requests: [Request] = [] {
+    var reservations: [Request] = [] {
         didSet {
             timeSlotsTableView.reloadData()
         }
@@ -33,7 +34,7 @@ class DetailsViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(handleAdd))
-        loadRequests()
+        loadReservations()
         
         configureTableView()
         configureDatePicker()
@@ -52,8 +53,8 @@ class DetailsViewController: UIViewController {
     }
     
     @objc func requestButtonPressed() {
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(handleAdd))
-        toggleViews()
+//        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(handleAdd))
+//        toggleViews()
         
         guard let roomNumber = roomNumber else { return }
         guard let duration = durationTextField.text, durationTextField.hasText else { return }
@@ -65,7 +66,25 @@ class DetailsViewController: UIViewController {
         let withInterval = datePicker.date.addingTimeInterval(Double(duration)!*60)
         let timeto = dateFormatter.string(from: withInterval)
 
-        networkManager.makePOSTRequest(path: roomNumber, timefrom: timefrom, timeto: timeto)
+        let defaults = UserDefaults.standard
+        guard let token = defaults.string(forKey: "jsonwebtoken") else { return }
+        
+        networkManager.postReservation(path: roomNumber, token: token, timefrom: timefrom, timeto: timeto) { result in
+            switch result {
+            case .success( _):
+                let dialogMessage = UIAlertController(title: "Успешно!", message: "", preferredStyle: .alert)
+                let ok = UIAlertAction(title: "Закрыть", style: .default) { (action) in
+                    self.navigationController?.popViewController(animated: true)
+                }
+                dialogMessage.addAction(ok)
+                self.present(dialogMessage, animated: true, completion: nil)
+            case .failure( _):
+                let dialogMessage = UIAlertController(title: "Внимание!", message: "Клэш по времени", preferredStyle: .alert)
+                let ok = UIAlertAction(title: "Закрыть", style: .default, handler: nil)
+                dialogMessage.addAction(ok)
+                self.present(dialogMessage, animated: true, completion: nil)
+            }
+        }
         
 //        loadRequests()
     }
@@ -76,6 +95,7 @@ class DetailsViewController: UIViewController {
         durationStackView.isHidden.toggle()
         requestButton.isHidden.toggle()
         occupiedLabel.isHidden.toggle()
+        roomLabel.isHidden.toggle()
     }
     
     func convertToDate(stringDate: String) -> String {
@@ -115,13 +135,21 @@ class DetailsViewController: UIViewController {
     }
     
     func makeConstraints() {
+        view.addSubview(roomLabel)
+        roomLabel.translatesAutoresizingMaskIntoConstraints = false
+        roomLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        roomLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20).isActive = true
+        roomLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+        roomLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        roomLabel.text = "Комната: #\(roomNumber!)"
+        
         view.addSubview(occupiedLabel)
         occupiedLabel.translatesAutoresizingMaskIntoConstraints = false
-        occupiedLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        occupiedLabel.topAnchor.constraint(equalTo: roomLabel.bottomAnchor).isActive = true
         occupiedLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20).isActive = true
         occupiedLabel.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
         occupiedLabel.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        occupiedLabel.text = "These time slots are occupied:"
+        occupiedLabel.text = "Данные слоты заняты:"
         
         view.addSubview(timeSlotsTableView)
         timeSlotsTableView.translatesAutoresizingMaskIntoConstraints = false
@@ -180,14 +208,14 @@ class DetailsViewController: UIViewController {
 extension DetailsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        requests.count
+        reservations.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "timeCell") as! TimeCell
-        if requests.count > 0 {
-            let from = requests[indexPath.row].timefrom
-            let to = requests[indexPath.row].timeto
+        if reservations.count > 0 {
+            let from = reservations[indexPath.row].timefrom
+            let to = reservations[indexPath.row].timeto
             cell.textLabel?.text = "\(convertToDate(stringDate: from)) - \(convertToDate(stringDate: to))"
         }
         cell.textLabel?.textAlignment = .center
@@ -202,11 +230,17 @@ extension DetailsViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension DetailsViewController {
     
-    private func loadRequests() {
+    private func loadReservations() {
         guard let roomNumber = roomNumber else { return }
-        networkManager.loadRequests(path: "\(roomNumber)") { [weak self] requests in
-            guard let self = self else { return }
-            self.requests = requests
+        let defaults = UserDefaults.standard
+        guard let token = defaults.string(forKey: "jsonwebtoken") else { return }
+        networkManager.getReservations(path: roomNumber, token: token) { (result) in
+            switch result {
+            case .success(let reservations):
+                self.reservations = reservations
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
         }
     }
 

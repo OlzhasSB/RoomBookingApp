@@ -24,8 +24,9 @@ class RoomCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func assignParameters(number: Int) {
+    func assignParameters(number: Int, image: UIImage) {
         descriptionLabel.text = "Кабинет: \(number)"
+        roomImageView.image = image
     }
     
     func configureImageView() {
@@ -34,14 +35,14 @@ class RoomCell: UITableViewCell {
         roomImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20).isActive = true
         roomImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
         roomImageView.heightAnchor.constraint(equalToConstant: 100).isActive = true
-        roomImageView.widthAnchor.constraint(equalToConstant: 100).isActive = true
-        roomImageView.image = UIImage(named: "male")
+        roomImageView.widthAnchor.constraint(equalToConstant: 150).isActive = true
+        roomImageView.contentMode = .scaleAspectFit
     }
     
     func configureLabel() {
         contentView.addSubview(descriptionLabel)
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         descriptionLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor).isActive = true
-        descriptionLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor).isActive = true
+        descriptionLabel.leadingAnchor.constraint(equalTo: roomImageView.trailingAnchor, constant: 20).isActive = true
     }
 }

@@ -9,6 +9,8 @@ import UIKit
 
 class SignUpViewController: UIViewController {
     
+    private var networkManager = NetworkManager.shared
+    
     let nameTextField = UITextField()
     let passwordTextField = UITextField()
     let retryPasswordTextField = UITextField()
@@ -22,7 +24,13 @@ class SignUpViewController: UIViewController {
     
     @objc func saveButtonPressed() {
         
+        guard let username = nameTextField.text, nameTextField.hasText else { return }
         
+        guard let password = passwordTextField.text, passwordTextField.hasText else { return }
+        
+        if passwordTextField.text == retryPasswordTextField.text {
+            networkManager.register(username: username, password: password) 
+        }
         
         
         navigationController?.popViewController(animated: true)
