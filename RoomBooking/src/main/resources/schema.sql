@@ -28,4 +28,4 @@ create table USERS
     password varchar(500),
     role varchar(50)
 );
-Insert Into USERS VALUES(0,'SA', '$2a$16$pPr7c4JrshgvDLFdVkhqfujD0nSb2ekNDNtsqnNW9BBbm9txVTGpC','ROLE_SUPERADMIN');
+Insert Into USERS VALUES(0,'SA', '$2a$06$8zKyUADPON9XsfK4AOgQ7OVI9YpsyRa5e.3MZmp6fD4bCnTBAi68m','ROLE_SUPERADMIN');

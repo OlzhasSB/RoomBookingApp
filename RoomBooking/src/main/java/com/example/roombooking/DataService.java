@@ -24,6 +24,7 @@ public class DataService {
     }
     @Transactional
     public boolean clash(AddRequest request, String name) {
+        if(request.getTimefrom().equals(request.getTimeto())) return true;
         Timetable t = timetableRepository.clash(request.getTimefrom(), request.getTimeto(), getID(name));
         return t != null;
     }

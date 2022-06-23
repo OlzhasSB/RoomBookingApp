@@ -6,6 +6,7 @@ import com.example.roombooking.Users.Details.UserService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.webjars.NotFoundException;
 
 import javax.validation.Valid;
 
@@ -19,7 +20,7 @@ public class SuperAdminController {
     @DeleteMapping("/{name}")
     public void deleteUser(@PathVariable String name){
         User user = userService.findByLogin(name);
-        if (user == null) throw new RuntimeException("FAIL");
+        if (user == null) throw new NotFoundException("There is no such user.");
         userService.delete(user);
     }
     @PostMapping("/create")
