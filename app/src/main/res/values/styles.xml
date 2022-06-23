@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="bottom_sheet_button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingVertical">12dp</item>
+        <item name="android:paddingHorizontal">32dp</item>
+        <item name="android:radius">8dp</item>
+        <item name="android:layout_marginBottom">4dp</item>
+        <item name="backgroundTint">#1789DB</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="fontFamily">Montserrat</item>
+        <item name="android:textSize">22sp</item>
+        <item name="textAllCaps">false</item>
+        <item name="lineHeight">26sp</item>
+    </style>
+</resources>

@@ -20,8 +20,8 @@
 
             <ImageView
                 android:id="@+id/ivRoomPhoto"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="125dp"
+                android:layout_height="125dp"
                 android:contentDescription="Room Photo"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

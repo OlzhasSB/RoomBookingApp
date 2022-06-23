@@ -8,6 +8,7 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.519927536231884" />
         <entry key="app/src/main/res/layout/activity_room_booking.xml" value="0.5054347826086957" />
         <entry key="app/src/main/res/layout/content_scrolling.xml" value="0.5054347826086957" />
+        <entry key="app/src/main/res/layout/dialog_bottomsheet_add_booking.xml" value="0.5" />
         <entry key="app/src/main/res/layout/rv_item_room.xml" value="0.5054347826086957" />
         <entry key="app/src/main/res/layout/rv_room.xml" value="0.43976449275362317" />
         <entry key="app/src/main/res/layout/rv_room_booking.xml" value="0.5" />

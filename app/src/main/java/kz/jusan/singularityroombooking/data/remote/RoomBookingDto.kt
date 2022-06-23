@@ -21,7 +21,6 @@ fun RoomBookingDto.toRoomBooking(): RoomBooking {
         fromDate = fromDate,
         toDate = toDate,
         personName = personName,
-        purpose = "purpose",
         contactInfo = contactInfo
     )
 }

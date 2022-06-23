@@ -51,7 +51,7 @@ class RoomBookingsAdapter : RecyclerView.Adapter<RoomBookingsAdapter.RoomBooking
             val pattern = "HH:mm, dd-MMM-uuuu"
             val fromDate = OffsetDateTime.parse(roomBooking.fromDate)
             val fromDateFormatted = DateTimeFormatter.ofPattern(pattern, Locale.ENGLISH)
-            val toDate = OffsetDateTime.parse(roomBooking.fromDate);
+            val toDate = OffsetDateTime.parse(roomBooking.toDate);
             val toDateFormatted = DateTimeFormatter.ofPattern(pattern, Locale.ENGLISH);
 
             findViewById<TextView>(R.id.tvFromContent).text = fromDateFormatted.format(fromDate)
