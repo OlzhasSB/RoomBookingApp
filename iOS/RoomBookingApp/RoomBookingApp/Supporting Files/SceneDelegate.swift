@@ -21,7 +21,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window = UIWindow(windowScene: windowScene)
         let navCont = UINavigationController()
         
-        navCont.viewControllers = [DetailsViewController()]
+        navCont.viewControllers = [RoomsViewController()]
         window.rootViewController = navCont
         
         

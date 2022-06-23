@@ -19,6 +19,7 @@
 		311FD13F2863029600A68129 /* AuthorizationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 311FD13E2863029600A68129 /* AuthorizationViewController.swift */; };
 		311FD14128630B7500A68129 /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 311FD14028630B7500A68129 /* InfoViewController.swift */; };
 		313641E428631CC500230AC9 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 313641E328631CC500230AC9 /* NetworkManager.swift */; };
+		3174A25D28643EEA003EB197 /* RequestsEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3174A25C28643EEA003EB197 /* RequestsEntity.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		311FD13E2863029600A68129 /* AuthorizationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthorizationViewController.swift; sourceTree = "<group>"; };
 		311FD14028630B7500A68129 /* InfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViewController.swift; sourceTree = "<group>"; };
 		313641E328631CC500230AC9 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		3174A25C28643EEA003EB197 /* RequestsEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestsEntity.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,8 +78,9 @@
 				31168AAF2862F91A00EA1F03 /* DetailsViewController.swift */,
 				31168AAD2862F2CC00EA1F03 /* RoomCell.swift */,
 				31168AB12862FB6F00EA1F03 /* TimeCell.swift */,
-				31168AA22862F09400EA1F03 /* Assets.xcassets */,
 				313641E328631CC500230AC9 /* NetworkManager.swift */,
+				3174A25C28643EEA003EB197 /* RequestsEntity.swift */,
+				31168AA22862F09400EA1F03 /* Assets.xcassets */,
 			);
 			path = RoomBookingApp;
 			sourceTree = "<group>";
@@ -166,6 +169,7 @@
 			files = (
 				313641E428631CC500230AC9 /* NetworkManager.swift in Sources */,
 				311FD13F2863029600A68129 /* AuthorizationViewController.swift in Sources */,
+				3174A25D28643EEA003EB197 /* RequestsEntity.swift in Sources */,
 				31168AB22862FB6F00EA1F03 /* TimeCell.swift in Sources */,
 				31168A9E2862F09400EA1F03 /* RoomsViewController.swift in Sources */,
 				31168A9A2862F09400EA1F03 /* AppDelegate.swift in Sources */,
@@ -319,6 +323,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 25N4978957;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = RoomBookingApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -346,6 +351,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 25N4978957;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = RoomBookingApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

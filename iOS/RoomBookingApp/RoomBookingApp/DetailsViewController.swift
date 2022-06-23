@@ -20,7 +20,12 @@ class DetailsViewController: UIViewController {
     let minLabel = UILabel()
     let requestButton = UIButton()
     
+    var roomNumber: Int?
+    
     let arr: [String] = ["10:00 - 11:30", "13:00 - 14:00"]
+    
+    private var networkManager = NetworkManager.shared
+    var requests: [Request] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,6 +36,7 @@ class DetailsViewController: UIViewController {
         configureStackViews()
         makeConstraints()
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(handleAdd))
+        loadRequests()
     }
     
     @objc func handleAdd() {
@@ -39,6 +45,7 @@ class DetailsViewController: UIViewController {
         fromStackView.isHidden.toggle()
         durationStackView.isHidden.toggle()
         requestButton.isHidden.toggle()
+        occupiedLabel.isHidden.toggle()
     }
     
     @objc func handleClose() {
@@ -47,6 +54,7 @@ class DetailsViewController: UIViewController {
         fromStackView.isHidden.toggle()
         durationStackView.isHidden.toggle()
         requestButton.isHidden.toggle()
+        occupiedLabel.isHidden.toggle()
     }
     
     @objc func datePickerValueChanged(_ sender: UIDatePicker){
@@ -62,6 +70,7 @@ class DetailsViewController: UIViewController {
         fromStackView.isHidden.toggle()
         durationStackView.isHidden.toggle()
         requestButton.isHidden.toggle()
+        occupiedLabel.isHidden.toggle()
     }
     
     func configureDatePicker() {
@@ -109,18 +118,20 @@ class DetailsViewController: UIViewController {
         timeSlotsTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
         timeSlotsTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
         timeSlotsTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        timeSlotsTableView.layer.borderColor = UIColor.systemGray3.cgColor
+        timeSlotsTableView.layer.borderWidth = 0.8
         
         view.addSubview(fromStackView)
         fromStackView.translatesAutoresizingMaskIntoConstraints = false
         fromStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        fromStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -30).isActive = true
+        fromStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -50).isActive = true
         startLabel.text = "Начало:"
         fromStackView.isHidden = true
         
         view.addSubview(durationStackView)
         durationStackView.translatesAutoresizingMaskIntoConstraints = false
         durationStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        durationStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 30).isActive = true
+        durationStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 20).isActive = true
         durationStackView.isHidden = true
         
         durationTextField.translatesAutoresizingMaskIntoConstraints = false
@@ -156,21 +167,17 @@ class DetailsViewController: UIViewController {
 
 extension DetailsViewController: UITableViewDelegate, UITableViewDataSource {
     
-//    func numberOfSections(in tableView: UITableView) -> Int {
-//        1
-//    }
-//
-//    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-//        "These time slots are occupied:"
-//    }
-//
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         arr.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "timeCell") as! TimeCell
-        cell.textLabel?.text = arr[indexPath.row]
+        if requests.count > 0 {
+            cell.textLabel?.text = "\(requests[indexPath.row].timefrom) - \(requests[indexPath.row].timeto)"
+        }
+
+//        arr[indexPath.row]
         cell.textLabel?.textAlignment = .center
         cell.selectionStyle = .none
         return cell
@@ -178,4 +185,15 @@ extension DetailsViewController: UITableViewDelegate, UITableViewDataSource {
     
 }
 
+extension DetailsViewController {
+    
+    private func loadRequests() {
+        guard let roomNumber = roomNumber else { return }
+        networkManager.loadRequests(path: "\(roomNumber)") { [weak self] requests in
+            guard let self = self else { return }
+            self.requests = requests
+            print(requests)
+        }
+    }
 
+}
