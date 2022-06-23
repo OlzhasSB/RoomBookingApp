@@ -19,3 +19,13 @@ INSERT INTO room VALUES (2, '302');
 INSERT INTO room VALUES (3, '303');
 INSERT INTO room VALUES (4, '304');
 INSERT INTO room VALUES (5, '404');
+create table USERS
+(
+    id       serial not null
+        constraint user_table_pk
+            primary key,
+    login    varchar(50),
+    password varchar(500),
+    role varchar(50)
+);
+Insert Into USERS VALUES(0,'SA', '$2a$16$pPr7c4JrshgvDLFdVkhqfujD0nSb2ekNDNtsqnNW9BBbm9txVTGpC','ROLE_SUPERADMIN');

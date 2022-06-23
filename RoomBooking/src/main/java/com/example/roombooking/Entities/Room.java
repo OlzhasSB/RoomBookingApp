@@ -1,4 +1,4 @@
-package com.example.roombooking;
+package com.example.roombooking.Entities;
 
 import lombok.Data;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package com.example.roombooking;
+package com.example.roombooking.Controllers;
 
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
