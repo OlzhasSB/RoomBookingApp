@@ -13,8 +13,6 @@ class InfoViewController: UIViewController {
     let pageControl = UIPageControl()
     let swipe = UISwipeGestureRecognizer()
     
-    
-
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
