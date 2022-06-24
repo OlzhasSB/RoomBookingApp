@@ -12,7 +12,7 @@ class RoomsViewController: UIViewController {
     let roomsTableView = UITableView()
     let headers = ["Лекционные залы", "Конференц-залы", "Игровой зал"]
     
-    let rooms: [[Room]] = [[Room(image: UIImage(named: "lection.jpeg")!, number: 302), Room(image: UIImage(named: "lection.jpeg")!, number: 304), Room(image: UIImage(named: "lection.jpeg")!, number: 404)], [Room(image: UIImage(named: "conference.jpeg")!, number: 303)], [Room(image: UIImage(named: "gaming.jpeg")!, number: 206)]]
+    let rooms: [[Room]] = [[Room(image: UIImage(named: "lection.jpeg")!, number: 302), Room(image: UIImage(named: "lection.jpeg")!, number: 304), Room(image: UIImage(named: "lection.jpeg")!, number: 404)], [Room(image: UIImage(named: "conference.jpeg")!, number: 303)], [Room(image: UIImage(named: "gaming.jpeg")!, number: 203)]]
     
     override func viewDidLoad() {
         super.viewDidLoad()

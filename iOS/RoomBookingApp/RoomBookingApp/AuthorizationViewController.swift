@@ -27,9 +27,22 @@ class AuthorizationViewController: UIViewController {
         
         let defaults = UserDefaults.standard
         
-        guard let username = nameTextField.text, nameTextField.hasText else { return }
+        guard let username = nameTextField.text, nameTextField.hasText else {
+            
+            let dialogMessage = UIAlertController(title: "Внимание!", message: "Введите логин и пароль", preferredStyle: .alert)
+            let ok = UIAlertAction(title: "Закрыть", style: .default, handler: nil)
+            dialogMessage.addAction(ok)
+            self.present(dialogMessage, animated: true, completion: nil)
+            return
+        }
         
-        guard let password = passwordTextField.text, passwordTextField.hasText else { return }
+        guard let password = passwordTextField.text, passwordTextField.hasText else {
+            let dialogMessage = UIAlertController(title: "Внимание!", message: "Введите логин и пароль", preferredStyle: .alert)
+            let ok = UIAlertAction(title: "Закрыть", style: .default, handler: nil)
+            dialogMessage.addAction(ok)
+            self.present(dialogMessage, animated: true, completion: nil)
+            return
+        }
         
         networkManager.auth(username: username, password: password) { result in
             switch result {
